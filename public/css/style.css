@@ -1,12 +1,14 @@
-.container{
+body{
     background-color: #3467C9;
+}
+.container{
     display: flex;
     justify-content: space-around;
 }
 
 .title{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 10em;
+    font-size: 10vw;
 }
 
 .error{

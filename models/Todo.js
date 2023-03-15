@@ -1,0 +1,27 @@
+const mongoose = require('mongoose')
+
+const todoSchema= new mongoose.Schema({
+    date:{
+        type: Date,
+        required: true
+    },
+    employee:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:'User'
+    },
+    rooms: {
+        type: Number,
+        required: true    
+    },
+    description: {
+        type: String,
+        required: true    
+    },
+    status: {
+        type: String,
+        default: 'PENDIENTE'    
+    }
+}) 
+
+module.exports= mongoose.model('Todo',todoSchema)

@@ -10,10 +10,6 @@ const todoSchema= new mongoose.Schema({
         required: true,
         ref:'User'
     },
-    rooms: {
-        type: Number,
-        required: true    
-    },
     description: {
         type: String,
         required: true    

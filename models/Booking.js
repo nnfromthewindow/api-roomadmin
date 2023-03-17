@@ -28,7 +28,7 @@ const bookingSchema= new mongoose.Schema({
     },
     discount: {
         type: Number,
-        required: true    
+        default: 0   
     },
     totalValue: {
         type: Number,
@@ -36,7 +36,7 @@ const bookingSchema= new mongoose.Schema({
     },
     note: {
         type: String,
-        required: true    
+        required: false    
     },
 }) 
 

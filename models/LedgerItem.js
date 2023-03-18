@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ledgerSchema= new mongoose.Schema({
+const ledgerItemSchema= new mongoose.Schema({
     date:{
         type: Date,
         required: true
@@ -19,4 +19,4 @@ const ledgerSchema= new mongoose.Schema({
     }  
 }) 
 
-module.exports= mongoose.model('Ledger',ledgerSchema)
+module.exports= mongoose.model('LedgerItem',ledgerItemSchema)

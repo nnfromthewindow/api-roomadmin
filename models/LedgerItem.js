@@ -6,7 +6,7 @@ const ledgerItemSchema= new mongoose.Schema({
         required: true
     },
     description:{
-        type: Number,
+        type: String,
         required: true
     },
     type: {
@@ -14,7 +14,7 @@ const ledgerItemSchema= new mongoose.Schema({
         required: true    
     },
     value: {
-        type: String,
+        type: Number,
         required: true    
     }  
 }) 

@@ -57,6 +57,32 @@ const createLedgerItem = async(req,res)=>{
     res.status(201).json({message:"New item created!"})
 }
 
+const updateLedgerItem = async(req,res)=>{
+    const {id,date,description,type,value}= req.body
+
+    const ledgerItem = await LedgerItem.findById(id).exec()
+
+    ledgerItem.date = date
+    ledgerItem.description = description
+    ledgerItem.type = type
+    ledgerItem.value = value
+
+    if(!date||!description||!type||!value){
+        return res.status(400).json({message:"All fields required"})
+    }
+
+    const newDate = new Date(date)
+
+   if((newDate.getMonth()+1)<1||(newDate.getMonth()+1)>12 || newDate.getFullYear()<2023||newDate.getFullYear()>3000 || newDate.getMonth()+1 == 0){
+    return res.status(400).json({message:"Invalid data"})
+}
+   
+    const result = await ledgerItem.save()
+
+    res.json({message:`Item with ID ${result.id} updated`})
+
+}
+
 const deleteLedgerItem = async (req,res)=>{
     const {id} = req.body
 
@@ -80,6 +106,7 @@ const deleteLedgerItem = async (req,res)=>{
 module.exports = {
     getAllItems,
     createLedgerItem,
+    updateLedgerItem,
     getFilteredItems,
     deleteLedgerItem
 }

@@ -22,6 +22,8 @@ app.use('/todos', require('./routes/todoRoutes'))
 app.use('/bookings', require('./routes/bookingRoutes'))
 app.use('/clients', require('./routes/clientRoutes'))
 app.use('/ledger', require('./routes/ledgerRoutes'))
+app.use('/rooms', require('./routes/roomRoutes'))
+app.use('/rates', require('./routes/rateRoutes'))
 
 
 app.all('*',(req,res)=>{

@@ -10,8 +10,9 @@ const bookingSchema= new mongoose.Schema({
         required: true
     },
     room: {
-        type: Number,
-        required: true    
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:'Room'    
     },
     pax: {
         type: Number,

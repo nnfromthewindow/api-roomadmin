@@ -3,20 +3,23 @@ require('express-async-errors')
 const express = require('express')
 const app = express()
 const path = require ('path')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
-const mongoose = require ('mongoose')
 const connectDB = require('./config/dbConnection')
+const mongoose = require ('mongoose')
 const PORT = process.env.PORT || 3500
 
 connectDB()
 
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'))
+app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use('/todos', require('./routes/todoRoutes'))
 app.use('/bookings', require('./routes/bookingRoutes'))

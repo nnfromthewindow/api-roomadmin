@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 
 
 const login = async(req,res)=>{
+
+const cookies = req.cookies
+
 const{username,password} = req.body
 
 if(!username||!password){
@@ -18,9 +21,46 @@ if(!user){
 
 const match = await bcrypt.compare(password, user.password)
 
-if (!match) return res.status(401).json({ message: 'Unauthorized' })
+//if (!match) return res.status(401).json({ message: 'Unauthorized' })
+if(match){
 
-const accessToken = jwt.sign({
+    const roles = Object.values(user.roles).filter(Boolean)
+
+    const accessToken = jwt.sign(
+        {
+            "UserInfo":{
+                "username": user.username,
+                "roles": roles
+            }
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {expiresIn:'15m'}
+        )
+    
+    const newRefreshToken = jwt.sign(
+            {"username": user.username},
+            process.env.REFRESH_TOKEN_SECRET,
+            {expiresIn: '1d'}
+        )
+
+    let newRefreshTokenArray = !cookies?.jwt ? user.refreshToken : user.refreshToken.filter(rt=>rt!==cookies.jwt)
+
+    if(cookies?.jwt){
+        const refreshToken = cookies.jwt
+        const token = await User.findOne({refreshToken}).exec()
+
+        if(!token){
+            console.log('attempted refresh token reuse at login!')
+        
+            newRefreshTokenArray = [];
+        }
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    }
+
+    
+}
+
+const accessToken = jwt.sign({  
 
     "UserInfo":{
         "username":user.username,

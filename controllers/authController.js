@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 
 const login = async(req,res)=>{
-
+    console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 const cookies = req.cookies
 
 const{username,password} = req.body
@@ -56,10 +56,19 @@ if(match){
         }
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
     }
+    user.refreshToken = [...newRefreshTokenArray,newRefreshToken]
+    const result = await user.save()
+    console.log(result);
+    console.log(roles);
 
-    
+    res.cookie('jwt', newRefreshToken,{httpOnly:true, secure: true, sameSite:'None', maxAge: 24 * 60 * 60 * 1000 })
+
+    res.json({accessToken, roles})
+} else {
+    res.sendStatus(401)
 }
 
+/*
 const accessToken = jwt.sign({  
 
     "UserInfo":{
@@ -86,7 +95,8 @@ res.cookie('jwt',refreshToken,{
 
 res.json({accessToken})
 }
-
+*/
+}
 const refresh = async(req,res)=>{
     const cookies = req.cookies
 

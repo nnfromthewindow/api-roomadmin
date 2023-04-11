@@ -8,7 +8,7 @@ const handleRefreshToken = async(req,res) =>{
     res.clearCookie('jwt', {httpOnly:true, sameSite:'None', secure:true})
 
     const user = await User.findOne({refreshToken}).exec()
-
+    console.log(user)
     if(!user){
     
         jwt.verify(
@@ -27,7 +27,7 @@ const handleRefreshToken = async(req,res) =>{
     }
 
     const newRefreshTokenArray = user.refreshToken.filter(rt => rt!== refreshToken)
-
+    
     jwt.verify(
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,

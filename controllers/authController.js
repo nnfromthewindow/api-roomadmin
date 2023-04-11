@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken')
 
 
 const login = async(req,res)=>{
-    console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
-const cookies = req.cookies
 
+const cookies = req.cookies
+//console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 const{username,password} = req.body
 
 if(!username||!password){
@@ -58,8 +58,8 @@ if(match){
     }
     user.refreshToken = [...newRefreshTokenArray,newRefreshToken]
     const result = await user.save()
-    console.log(result);
-    console.log(roles);
+   // console.log(result);
+    //console.log(roles);
 
     res.cookie('jwt', newRefreshToken,{httpOnly:true, secure: true, sameSite:'None', maxAge: 24 * 60 * 60 * 1000 })
 

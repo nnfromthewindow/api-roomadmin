@@ -3,7 +3,7 @@ const jwt = require ('jsonwebtoken')
 
 const handleRefreshToken = async(req,res) =>{
     const cookies = req.cookies
-    if(!cookies?.jwt) return res.sendStatus(401)
+    if(!cookies?.jwt) return res.status(401).json({message:"No estas autorizado"})
     const refreshToken = cookies.jwt
     res.clearCookie('jwt', {httpOnly:true, sameSite:'None', secure:true})
 
@@ -15,7 +15,7 @@ const handleRefreshToken = async(req,res) =>{
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             async(err,decoded)=>{
-                if(err) return res.sendStatus(403)
+                if(err) return res.status(403).json({message:"Forbidden 403 status"})
                 console.log('attempted refresh token reuse!')
                 const hackedUser = await User.findOne({username:decoded.username}).exec()
                 hackedUser.refreshToken = []

@@ -2,11 +2,14 @@ const express = require('express')
 const router = express.Router()
 const bookingsController = require('../controllers/bookingsController')
 const verifyJWT = require('../middleware/verifyJWT')
+const ROLES = require('../config/roles')
+const verifyRoles = require('../middleware/verifyRoles')
+
 
 router.use(verifyJWT)
 
 router.route('/')
-    .get(bookingsController.getAllBookings)
+    .get(verifyRoles(ROLES.Admin),bookingsController.getAllBookings)
     .post(bookingsController.createBooking)
     .patch(bookingsController.updateBooking)
     .delete(bookingsController.deleteBooking)

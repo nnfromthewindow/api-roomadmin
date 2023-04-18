@@ -71,7 +71,12 @@ const deleteTodo = async(req,res)=>{
 }
 
 const getEmployeeTodo = async(req,res)=>{
-    console.log(req.params)
+   // console.log(req.roles)
+    if(req.roles.includes("Admin")){
+        console.log("HOLA ADMIN!!!!")
+    }else{
+        console.log("No sos NADAAA :(")
+    }
 
 }
 

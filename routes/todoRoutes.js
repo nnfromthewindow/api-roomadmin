@@ -6,7 +6,7 @@ const ROLES = require('../config/roles')
 const verifyRoles = require('../middleware/verifyRoles')
 
 
-//router.use(verifyJWT)
+router.use(verifyJWT)
 //router.use(verifyRoles(ROLES.Admin))
 router.route('/')
     .get(todosController.getTodos)

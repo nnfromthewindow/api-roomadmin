@@ -7,9 +7,10 @@ const verifyRoles = require('../middleware/verifyRoles')
 
 
 router.use(verifyJWT)
+router.use(verifyRoles(ROLES.Admin))
 
 router.route('/')
-    .get(verifyRoles(ROLES.Admin),bookingsController.getAllBookings)
+    .get(bookingsController.getAllBookings)
     .post(bookingsController.createBooking)
     .patch(bookingsController.updateBooking)
     .delete(bookingsController.deleteBooking)

@@ -70,9 +70,15 @@ const deleteTodo = async(req,res)=>{
     res.json(reply)
 }
 
+const getEmployeeTodo = async(req,res)=>{
+    console.log(req.params)
+
+}
+
 module.exports={
     getTodos,
     createTodo,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    getEmployeeTodo
 }

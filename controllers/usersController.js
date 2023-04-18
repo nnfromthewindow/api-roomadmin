@@ -28,9 +28,9 @@ const postAdmin = async (req,res)=>{
 }
 */
 const createNewUser = async (req,res)=>{
-    const {name,lastname,idNumber,adress,email,phone,username,password,roles,avatar}=req.body
+    const {name,lastname,idNumber,adress,email,phone,username,password,avatar}=req.body
 
-    if(!name||!lastname||!phone||!roles){
+    if(!name||!lastname||!phone){
         return res.status(400).json({message:"Complete required fields"})
     }
 
@@ -41,7 +41,7 @@ const createNewUser = async (req,res)=>{
     }
     const hashedPassword = await bcrypt.hash(password,15)
 
-    const userObject = {name, lastname,idNumber,adress,email,phone,username,"password":hashedPassword,roles,avatar}
+    const userObject = {name, lastname,idNumber,adress,email,phone,username,"password":hashedPassword,avatar}
 
     const user = await User.create(userObject)
 

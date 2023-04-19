@@ -1,5 +1,5 @@
 const Todo = require('../models/Todo')
-
+const User = require('../models/User')
 const getTodos = async (req,res)=>{
 
     const todos = await Todo.find().lean()
@@ -71,12 +71,35 @@ const deleteTodo = async(req,res)=>{
 }
 
 const getEmployeeTodo = async(req,res)=>{
-   // console.log(req.roles)
-    if(req.roles.includes("Admin")){
-        console.log("HOLA ADMIN!!!!")
+  
+    const employee = await User.findOne({username:req.user}).select('-password').exec()
+    if(req.user == req.params.username){
+        const todos = await Todo.find({employee}).exec()
+    console.log(todos)
+    res.json({todos})
     }else{
-        console.log("No sos NADAAA :(")
+    res.sendStatus(403)
     }
+}
+
+const updateTodoStatus = async(req,res) =>{
+    const {id,status} = req.body
+
+    if(!status){
+        return res.status(400).json({message:"Status is required"})
+    }
+
+    const todo = await Todo.findById(id).exec()
+
+    if(!todo){
+        return res.status(400).json({message:"Todo not found"})
+    }
+
+    todo.status = status
+   
+    await todo.save()
+
+    res.json({message:`Todo with ID ${id} updated!`})
 
 }
 
@@ -85,5 +108,6 @@ module.exports={
     createTodo,
     updateTodo,
     deleteTodo,
-    getEmployeeTodo
+    getEmployeeTodo,
+    updateTodoStatus
 }

@@ -10,8 +10,8 @@ const ledgerItemSchema= new mongoose.Schema({
         required: true
     },
     type: {
-        type: String,
-        required: true    
+        Credit:Number,
+        Debit:Number,
     },
     value: {
         type: Number,

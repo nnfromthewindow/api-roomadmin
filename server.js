@@ -3,7 +3,9 @@ require('express-async-errors')
 const express = require('express')
 const app = express()
 const path = require ('path')
+const errorHandler = require('./middleware/errorHandler')
 const cookieParser = require('cookie-parser')
+const credentials = require('./middleware/credentials')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConnection')
@@ -11,7 +13,7 @@ const mongoose = require ('mongoose')
 const PORT = process.env.PORT || 3500
 
 connectDB()
-
+app.use(credentials)
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
@@ -42,6 +44,8 @@ app.all('*',(req,res)=>{
         res.type('txt').send('404 Not Found')
     }
 })
+
+app.use(errorHandler)
 
 mongoose.connection.once('open', ()=>{
     console.log('Connected to MongoDB')

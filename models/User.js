@@ -34,7 +34,7 @@ const userSchema= new mongoose.Schema({
         required: true    
     },
     roles:{
-       Eployee:{
+       Employee:{
         type: String,
         default:"Employee",
     },

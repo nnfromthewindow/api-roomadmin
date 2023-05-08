@@ -6,7 +6,14 @@ const getTodos = async (req,res)=>{
     if (!todos?.length) {
         return res.status(400).json({ message: 'No todos' })
     }
-    return res.json(todos)
+
+    const employeeTodos = await Promise.all(
+        todos.map(async (todo)=>{
+        const user = await User.findById(todo.employee).lean().exec()
+        return {...todo, employee: user.username}
+        }))
+
+    return res.json(employeeTodos)
 }
 
 const createTodo = async (req,res)=>{

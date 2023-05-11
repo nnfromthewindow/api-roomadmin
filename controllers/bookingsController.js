@@ -8,8 +8,11 @@ const getAllBookings = async (req,res)=>{
     if(!bookings?.length){
         return res.status(400).json({message:"No bookings found"})
     }
+    const bookingsList = await Promise.all(bookings.map(async (booking) => {
+        return {...booking}
+    }))
 
-    res.json(bookings)
+    res.json(bookingsList)
 }
 
 const createBooking = async (req,res) =>{

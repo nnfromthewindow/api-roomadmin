@@ -8,7 +8,11 @@ const getRates = async(req,res)=>{
     return res.status(400).json({message:'No rates'})
     }
 
-    return res.json(rates)
+    const ratesList = await Promise.all(rates.map(async (rate) => {
+        return {...rate}
+    }))
+
+    res.json(ratesList)
 }
 
 const createRate = async(req,res) =>{

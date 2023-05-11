@@ -6,7 +6,11 @@ const getRooms = async(req,res)=>{
     if(!rooms?.length){
         return res.status(400).json({message:"No rooms"})
     }
-    return res.json(rooms)
+    const roomsList = await Promise.all(rooms.map(async (room) => {
+        return {...room}
+    }))
+
+    res.json(roomsList)
 }
 
 const createRoom = async(req,res)=>{

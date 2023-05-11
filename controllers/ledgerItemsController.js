@@ -8,7 +8,11 @@ const getAllItems = async(req,res)=>{
         return res.status(400).json({message:"No items found"})
     }
 
-    res.json(ledgerItems)
+    const ledgerItemsList = await Promise.all(ledgerItems.map(async (ledgerItem) => {
+        return {...ledgerItem}
+    }))
+
+    res.json(ledgerItemsList)
 }
 
 const getFilteredItems = async (req,res)=>{

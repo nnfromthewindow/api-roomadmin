@@ -8,7 +8,11 @@ const getAllClients = async(req,res)=>{
         res.status(400).json({message:"No clients found"})
     }
 
-    res.json(clients)
+    const clientsList = await Promise.all(clients.map(async (client) => {
+        return {...client}
+    }))
+
+    res.json(clientsList)
 }
 
 const createClient = async(req,res)=>{

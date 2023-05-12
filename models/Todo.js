@@ -16,7 +16,7 @@ const todoSchema= new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'PENDIENTE'    
+        default: 'PENDING'    
     }
 }) 
 

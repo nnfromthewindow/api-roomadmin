@@ -1,5 +1,7 @@
 const Todo = require('../models/Todo')
 const User = require('../models/User')
+
+
 const getTodos = async (req,res)=>{
 
     const todos = await Todo.find().lean()
@@ -10,7 +12,7 @@ const getTodos = async (req,res)=>{
     const employeeTodos = await Promise.all(
         todos.map(async (todo)=>{
         const user = await User.findById(todo.employee).lean().exec()
-        return {...todo, employee: user.username}
+        return {...todo}
         }))
 
     return res.json(employeeTodos)
@@ -82,7 +84,7 @@ const getEmployeeTodo = async(req,res)=>{
     const employee = await User.findOne({username:req.user}).select('-password').exec()
     if(req.user == req.params.username){
         const todos = await Todo.find({employee}).exec()
-    console.log(todos)
+    
     res.json({todos})
     }else{
     res.sendStatus(403)

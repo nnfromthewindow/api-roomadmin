@@ -10,7 +10,7 @@ router.use(verifyJWT)
 
 router.route('/:username')
     .get(verifyRoles(ROLES.Admin, ROLES.Employee),todosController.getEmployeeTodo)
-    .put(verifyRoles(ROLES.Admin, ROLES.Employee),todosController.updateTodoStatus)
+    .patch(verifyRoles(ROLES.Admin, ROLES.Employee),todosController.updateTodoStatus)
 
 router.use(verifyRoles(ROLES.Admin))
 

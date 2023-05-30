@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const clientController = require('../controllers/clientsController')
+const customerController = require('../controllers/customersController')
 const verifyJWT = require('../middleware/verifyJWT')
 const ROLES = require('../config/roles')
 const verifyRoles = require('../middleware/verifyRoles')
@@ -10,8 +10,8 @@ router.use(verifyJWT)
 router.use(verifyRoles(ROLES.Admin))
 
 router.route('/')
-    .get(clientController.getAllClients)
-    .post(clientController.createClient)
+    .get(customerController.getAllCustomers)
+    .post(customerController.createCustomer)
 
 
 module.exports = router

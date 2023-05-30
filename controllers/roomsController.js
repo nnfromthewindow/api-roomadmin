@@ -14,15 +14,15 @@ const getRooms = async(req,res)=>{
 }
 
 const createRoom = async(req,res)=>{
-    const{number,pax,rooms,rate}=req.body
+    const{number,passengers,rooms,rate}=req.body
 
-    if(!number||!pax||!rooms||!rate){
+    if(!number||!passengers||!rooms||!rate){
         return res.status(400).json({message:"All fields are required"})
     }
 
     const roomObject = {
         number,
-        pax,
+        passengers,
         rooms,
         rate
     }
@@ -38,9 +38,9 @@ const createRoom = async(req,res)=>{
 }
 
 const updateRoom = async(req,res)=>{
-    const{id,number,pax,rooms,rate}=req.body
+    const{id,number,passengers,rooms,rate}=req.body
 
-    if(!number||!pax||!rooms||!rate){
+    if(!number||!passengers||!rooms||!rate){
         return res.status(400).json({message:'All fields are required'})
     }
 
@@ -51,7 +51,7 @@ const updateRoom = async(req,res)=>{
     }
 
     room.number = number
-    room.pax = pax
+    room.passengers = passengers
     room.rooms = rooms
     room.rate = rate
 

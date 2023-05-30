@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const bookingSchema= new mongoose.Schema({
-    income:{
+    checkin:{
         type: Date,
         required: true
     },
-    outcome:{
+    checkout:{
         type: Date,
         required: true
     },
@@ -14,14 +14,14 @@ const bookingSchema= new mongoose.Schema({
         required: true,
         ref:'Room'    
     },
-    pax: {
+    passengers: {
         type: Number,
         required: true    
     },
-    client: {
+    customer: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Client'    
+        ref: 'Customer'    
     },
     value: {
         type: Number,

@@ -5,7 +5,7 @@ const roomSchema= new mongoose.Schema({
         type: Number,
         required: true
     },
-    pax:{
+    passengers:{
         type: Number,
         required: true
     },

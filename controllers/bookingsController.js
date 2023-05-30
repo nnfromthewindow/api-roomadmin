@@ -1,5 +1,5 @@
 const Booking = require('../models/Booking')
-const Client = require ('../models/Client')
+const Customer = require ('../models/Customer')
 
 const getAllBookings = async (req,res)=>{
  
@@ -16,14 +16,14 @@ const getAllBookings = async (req,res)=>{
 }
 
 const createBooking = async (req,res) =>{
-    const{income,outcome,room,pax,client,value,discount,totalValue,note}=req.body
+    const{checkin,checkout,room,passengers,customer,value,discount,totalValue,note}=req.body
 
-    if(!income||!outcome||!room||!pax||!client||!value||!totalValue){
+    if(!checkin||!checkout||!room||!passengers||!customer||!value||!totalValue){
         return res.status(400).json({message:"All fields except notes are required"})
     }
 
     const bookingObject = {
-        income,outcome,room,pax,client,value,discount,totalValue,note
+        checkin,checkout,room,passengers,customer,value,discount,totalValue,note
     }
 
     const booking = await Booking.create(bookingObject)
@@ -36,9 +36,9 @@ const createBooking = async (req,res) =>{
 }
 
 const updateBooking = async(req,res)=>{
-    const{id,income,outcome,room,pax,client,value,discount,totalValue,note}=req.body
+    const{id,checkin,checkout,room,passengers,customer,value,discount,totalValue,note}=req.body
 
-    if(!income||!outcome||!room||!pax||!client||!value||!totalValue){
+    if(!checkin||!checkout||!room||!passengers||!customer||!value||!totalValue){
         return res.status(400).json({message:"All fields except notes are required"})
     }
 
@@ -47,11 +47,11 @@ const updateBooking = async(req,res)=>{
     if(!booking){
         return res.status(400).json({message:`Booking with ID ${id} not found`})
     }
-    booking.income= income
-    booking.outcome= outcome
+    booking.checkin= checkin
+    booking.checkout= checkout
     booking.room = room
-    booking.pax= pax
-    booking.client = client
+    booking.passengers= passengers
+    booking.customer = customer
     booking.value = value
     booking.discount = discount
     booking.totalValue
@@ -74,15 +74,15 @@ const deleteBooking = async(req,res)=>{
     if(!booking){
         return res.status(404).json({message:"Booking not found"})
     }
-    const clientFound = await Client.findById(booking.client)
+    const customerFound = await Customer.findById(booking.customer)
     
-    if(!clientFound){
-        return res.status(404).json({message:"Client not found"})
+    if(!customerFound){
+        return res.status(404).json({message:"Customer not found"})
     }
 
     const result = await booking.deleteOne()
 
-    const reply = `${clientFound.name} ${clientFound.lastname}'s booking with ID ${result._id} deleted`
+    const reply = `${customerFound.name} ${customerFound.lastname}'s booking with ID ${result._id} deleted`
 
     res.json(reply)
     

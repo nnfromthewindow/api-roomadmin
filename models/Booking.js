@@ -24,7 +24,7 @@ const bookingSchema= new mongoose.Schema({
         ref: 'Customer'    
     },
     value: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         required: true    
     },
     discount: {
@@ -32,7 +32,7 @@ const bookingSchema= new mongoose.Schema({
         default: 0   
     },
     totalValue: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         required: true    
     },
     note: {

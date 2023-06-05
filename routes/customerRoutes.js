@@ -12,6 +12,8 @@ router.use(verifyRoles(ROLES.Admin))
 router.route('/')
     .get(customerController.getAllCustomers)
     .post(customerController.createCustomer)
+    .patch(customerController.updateCustomer)
+    .delete(customerController.deleteCustomer)
 
 
 module.exports = router

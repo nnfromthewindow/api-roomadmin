@@ -15,9 +15,9 @@ const getAllUsers = async (req, res)=>{
 }
 
 const createNewUser = async (req,res)=>{
-    const {name,lastname,idNumber,adress,email,phone,username,password,avatar}=req.body
-
-    if(!name||!lastname||!phone){
+    const {name,lastname,idNumber,adress,email,phone,username,password,avatar,role}=req.body
+    console.log(role)
+    if(!name||!lastname||!idNumber||!adress||!phone||!username||!password||!role){
         return res.status(400).json({message:"Complete required fields"})
     }
 
@@ -28,7 +28,7 @@ const createNewUser = async (req,res)=>{
     }
     const hashedPassword = await bcrypt.hash(password,15)
 
-    const userObject = {name, lastname,idNumber,adress,email,phone,username,"password":hashedPassword,avatar}
+    const userObject = {name, lastname, idNumber, adress, email, phone, username,"password":hashedPassword, avatar, role}
 
     const user = await User.create(userObject)
 
@@ -41,9 +41,9 @@ const createNewUser = async (req,res)=>{
 }
 
 const updateUser =  async (req,res)=>{
-    const {id,name,lastname,idnumber,adress,email,phone,username,password,roles,avatar}=req.body
+    const {id,name,lastname,idnumber,adress,email,phone,username,password,role,avatar}=req.body
     
-    if(!name||!lastname||!phone||!username||!password||!roles){
+    if(!name||!lastname||!phone||!username||!password||!role){
         return res.status(400).json({ message: 'fields with * are required' })
     }
     const user = await User.findById(id).exec()
@@ -66,7 +66,7 @@ const updateUser =  async (req,res)=>{
     user.avatar=avatar
     user.username=username
     user.password=password
-    user.roles= roles
+    user.role= role
 
     
     if (password) {

@@ -15,9 +15,9 @@ const getAllUsers = async (req, res)=>{
 }
 
 const createNewUser = async (req,res)=>{
-    const {name,lastname,idNumber,adress,email,phone,username,password,avatar,role}=req.body
-    console.log(role)
-    if(!name||!lastname||!idNumber||!adress||!phone||!username||!password||!role){
+    const {name,lastname,idnumber,adress,email,phone,username,password,avatar,roles}=req.body
+    
+    if(!name||!lastname||!idnumber||!adress||!phone||!username||!password||!roles){
         return res.status(400).json({message:"Complete required fields"})
     }
 
@@ -28,7 +28,7 @@ const createNewUser = async (req,res)=>{
     }
     const hashedPassword = await bcrypt.hash(password,15)
 
-    const userObject = {name, lastname, idNumber, adress, email, phone, username,"password":hashedPassword, avatar, role}
+    const userObject = {name, lastname, idnumber, adress, email, phone, username,"password":hashedPassword, avatar, roles}
 
     const user = await User.create(userObject)
 
@@ -41,9 +41,9 @@ const createNewUser = async (req,res)=>{
 }
 
 const updateUser =  async (req,res)=>{
-    const {id,name,lastname,idnumber,adress,email,phone,username,password,role,avatar}=req.body
+    const {id,name,lastname,idnumber,adress,email,phone,username,password,roles,avatar}=req.body
     
-    if(!name||!lastname||!phone||!username||!password||!role){
+    if(!name||!lastname||!idnumber||!adress||!phone||!username||!password||!roles){
         return res.status(400).json({ message: 'fields with * are required' })
     }
     const user = await User.findById(id).exec()
@@ -58,15 +58,16 @@ const updateUser =  async (req,res)=>{
         return res.status(409).json({ message: 'Duplicate username' })
     }
 
-    user.name=name
-    user.lastname=lastname
-    user.email=email
-    user.idnumber =idnumber
-    user.adress=adress
-    user.avatar=avatar
-    user.username=username
-    user.password=password
-    user.role= role
+    user.name = name
+    user.lastname = lastname
+    user.email = email
+    user.idnumber = idnumber
+    user.adress = adress
+    user.phone = phone
+    user.avatar = avatar
+    user.username = username
+    user.password = password
+    user.roles = roles
 
     
     if (password) {
@@ -102,7 +103,6 @@ const deleteUser = async (req,res)=>{
 
 module.exports ={
     getAllUsers,
-    //postAdmin,
     createNewUser,
     updateUser,
     deleteUser

@@ -33,13 +33,9 @@ const userSchema= new mongoose.Schema({
         type: String,
         required: true    
     },
-    roles:{
-       Employee:{
+    roles:[{
         type: String,
-        default:"Employee",
-    },
-        Admin:String
-    },
+        required: true}],
     avatar: {
         type: String,
         required: false    

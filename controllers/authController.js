@@ -58,8 +58,6 @@ if(match){
     }
     user.refreshToken = [...newRefreshTokenArray,newRefreshToken]
     const result = await user.save()
-    console.log(result);
-    console.log(roles);
 
     res.cookie('jwt', newRefreshToken,{httpOnly:true, secure: true, sameSite:'None', maxAge: 24 * 60 * 60 * 1000 })
 
@@ -77,7 +75,7 @@ const refresh = async(req,res) =>{
     res.clearCookie('jwt', {httpOnly:true, sameSite:'None', secure:true})
 
     const user = await User.findOne({refreshToken}).exec()
-    console.log(user)
+  
     if(!user){
     
         jwt.verify(

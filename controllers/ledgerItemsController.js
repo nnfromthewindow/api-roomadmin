@@ -42,14 +42,14 @@ const getFilteredItems = async (req,res)=>{
 
 const createLedgerItem = async(req,res)=>{
     
-    const{date,description,type,value}=req.body
+    const{date,description,expenses,income}=req.body
 
-    if(!date||!description||!type||!value){
+    if(!date||!description||!expenses||!income){
         return res.status(400).json({message:"All fields required"})
     }
         
     const itemObject = {
-        date,description,type,value
+        date,description,expenses,income
     }
 
     const ledgerItem = await LedgerItem.create(itemObject)
@@ -62,16 +62,16 @@ const createLedgerItem = async(req,res)=>{
 }
 
 const updateLedgerItem = async(req,res)=>{
-    const {id,date,description,type,value}= req.body
+    const {id,date,description,expenses,income}= req.body
 
     const ledgerItem = await LedgerItem.findById(id).exec()
 
     ledgerItem.date = date
     ledgerItem.description = description
-    ledgerItem.type = type
-    ledgerItem.value = value
+    ledgerItem.expenses = expenses
+    ledgerItem.income = income
 
-    if(!date||!description||!type||!value){
+    if(!date||!description||!expenses||!income){
         return res.status(400).json({message:"All fields required"})
     }
 

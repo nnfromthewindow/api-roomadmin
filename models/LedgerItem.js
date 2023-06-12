@@ -9,13 +9,13 @@ const ledgerItemSchema= new mongoose.Schema({
         type: String,
         required: true
     },
-    type: {
-        Credit:String,
-        Debit:String,
+    expenses: {
+        type: String,
+        required: true
     },
-    value: {
-        type: Number,
-        required: true    
+    income: {
+        type: String,
+        required: true   
     }  
 }) 
 

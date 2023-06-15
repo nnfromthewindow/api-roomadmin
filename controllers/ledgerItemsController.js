@@ -88,21 +88,16 @@ const updateLedgerItem = async(req,res)=>{
 }
 
 const deleteLedgerItem = async (req,res)=>{
-    const {id} = req.body
+    const {ids} = req.body
 
-    if (!id) {
-        return res.status(400).json({ message: 'Ledger item ID Required' })
+    if (!ids) {
+        return res.status(400).json({ message: 'Ledger items ID Required' })
     }
 
-    const ledgerItem = await LedgerItem.findById(id).exec()
+   
+    const result = await LedgerItem.deleteMany({id:{ids}})
 
-    if(!ledgerItem){
-        return res.status(400).json({message:`Ledger item with ID ${id} not found`})
-    }
-    
-    const result = await ledgerItem.deleteOne()
-
-    const reply = `Ledger item with ID ${result.id} deleted`
+    const reply = `Ledger items with IDs ${JSON.stringify(ids)} deleted`
 
     res.json(reply)
 }

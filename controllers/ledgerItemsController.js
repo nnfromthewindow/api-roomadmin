@@ -95,7 +95,8 @@ const deleteLedgerItem = async (req,res)=>{
     }
 
    
-    const result = await LedgerItem.deleteMany({id:{ids}})
+    const result = await LedgerItem.deleteMany({_id:ids})
+    
 
     const reply = `Ledger items with IDs ${JSON.stringify(ids)} deleted`
 

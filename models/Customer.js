@@ -10,7 +10,7 @@ const customerSchema= new mongoose.Schema({
         required: true    
     },
     idnumber: {
-        type: Number,
+        type: String,
         required: false    
     },
     adress: {

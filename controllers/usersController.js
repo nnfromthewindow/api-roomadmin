@@ -41,9 +41,9 @@ const createNewUser = async (req,res)=>{
 }
 
 const updateUser =  async (req,res)=>{
-    const {id,name,lastname,idnumber,adress,email,phone,username,password,roles,avatar}=req.body
+    const {id,name,lastname,idnumber,adress,email,phone,username,roles,avatar}=req.body
     
-    if(!name||!lastname||!idnumber||!adress||!phone||!username||!password||!roles){
+    if(!name||!lastname||!idnumber||!adress||!phone||!username||!roles){
         return res.status(400).json({ message: 'fields with * are required' })
     }
     const user = await User.findById(id).exec()
@@ -66,14 +66,9 @@ const updateUser =  async (req,res)=>{
     user.phone = phone
     user.avatar = avatar
     user.username = username
-    user.password = password
     user.roles = roles
 
-    
-    if (password) {
-        user.password = await bcrypt.hash(password, 15) // 
-    }
-   
+      
     const updatedUser = await user.save()
 
     res.json({ message: `${updatedUser.username} updated` })

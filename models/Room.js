@@ -12,11 +12,6 @@ const roomSchema= new mongoose.Schema({
     rooms: {
         type: Number,
         required: true    
-    },
-    rate:{
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref:'Rate'
     }
 }) 
 

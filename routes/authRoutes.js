@@ -6,7 +6,7 @@ router.route('/')
     .post(authController.login)
     
 router.route('/refresh')
-    .post(authController.refresh)
+    .get(authController.refresh)
 
 router.route('/logout')
     .post(authController.logout)

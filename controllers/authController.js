@@ -30,7 +30,8 @@ if(match){
         {
             "UserInfo":{
                 "username": user.username,
-                "roles": roles
+                "roles": roles,
+                "id": user.id
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -44,7 +45,7 @@ if(match){
         )
 
     let newRefreshTokenArray = !cookies?.jwt ? user.refreshToken : user.refreshToken.filter(rt=>rt!==cookies.jwt)
-
+       
     if(cookies?.jwt){
         const refreshToken = cookies.jwt
         const token = await User.findOne({refreshToken}).exec()
@@ -106,7 +107,7 @@ const refresh = async(req,res) =>{
                     console.log(result)
                 }
                 if(err || user.username !== decoded.username ) return res.sendStatus(403)
-
+                console.log(decoded)
                 const roles = Object.values(user.roles)
                 const accessToken = jwt.sign(
                     {

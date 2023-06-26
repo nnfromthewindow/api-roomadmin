@@ -31,7 +31,7 @@ if(match){
             "UserInfo":{
                 "username": user.username,
                 "roles": roles,
-                "id": user.id
+                "avatar": user.avatar
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -107,13 +107,15 @@ const refresh = async(req,res) =>{
                     console.log(result)
                 }
                 if(err || user.username !== decoded.username ) return res.sendStatus(403)
-                console.log(decoded)
+                
                 const roles = Object.values(user.roles)
+
                 const accessToken = jwt.sign(
                     {
                         "UserInfo":{
                             "username":decoded.username,
-                            "roles": roles
+                            "roles": roles,
+                            "avatar": user.avatar
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,

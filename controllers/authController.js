@@ -35,13 +35,13 @@ if(match){
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:'10s'}
+        {expiresIn:'15m'}
         )
     
     const newRefreshToken = jwt.sign(
             {"username": user.username},
             process.env.REFRESH_TOKEN_SECRET,
-            {expiresIn: '20s'}
+            {expiresIn: '15d'}
         )
 
     let newRefreshTokenArray = !cookies?.jwt ? user.refreshToken : user.refreshToken.filter(rt=>rt!==cookies.jwt)
@@ -119,13 +119,13 @@ const refresh = async(req,res) =>{
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    {expiresIn:'10s'}
+                    {expiresIn:'15m'}
                     )
 
                     const newRefreshToken = jwt.sign(
                         {"username": user.username},
                         process.env.REFRESH_TOKEN_SECRET,
-                        {expiresIn: '20s'}
+                        {expiresIn: '15d'}
                     )
 
                     user.refreshToken = [...newRefreshTokenArray, newRefreshToken]

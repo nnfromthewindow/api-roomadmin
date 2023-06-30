@@ -74,15 +74,10 @@ const deleteBooking = async(req,res)=>{
     if(!booking){
         return res.status(404).json({message:"Booking not found"})
     }
-    const customerFound = await Customer.findById(booking.customer)
-    
-    if(!customerFound){
-        return res.status(404).json({message:"Customer not found"})
-    }
-
+      
     const result = await booking.deleteOne()
 
-    const reply = `${customerFound.name} ${customerFound.lastname}'s booking with ID ${result._id} deleted`
+    const reply = `Booking with ID ${result._id} deleted`
 
     res.json(reply)
     

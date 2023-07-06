@@ -9,10 +9,10 @@ const verifyRoles = require('../middleware/verifyRoles')
 router.use(verifyJWT)
 
 router.route('/:username')
-    .get(verifyRoles(ROLES.Admin, ROLES.Employee),todosController.getEmployeeTodo)
-    .patch(verifyRoles(ROLES.Admin, ROLES.Employee),todosController.updateTodoStatus)
+    .get(verifyRoles(ROLES.Manager,ROLES.Admin, ROLES.Employee),todosController.getEmployeeTodo)
+    .patch(verifyRoles(ROLES.Manager,ROLES.Admin, ROLES.Employee),todosController.updateTodoStatus)
 
-router.use(verifyRoles(ROLES.Admin))
+router.use(verifyRoles(ROLES.Manager,ROLES.Admin))
 
 router.route('/')
     .get(todosController.getTodos)

@@ -19,6 +19,16 @@ const createRoom = async(req,res)=>{
     if(!number||!passengers||!rooms){
         return res.status(400).json({message:"All fields are required"})
     }
+    
+    if (typeof number !== 'number' || typeof passengers !== 'number' || typeof rooms !== 'number') {
+        return res.status(400).json({message:"Only numbers allowed"})
+      }
+
+    const duplicatedRoom = await Room.findOne({number}).lean().exec()
+
+    if(duplicatedRoom){
+        return res.status(409).json({message: "Duplicate room"})
+    }
 
     const roomObject = {
         number,
@@ -37,11 +47,22 @@ const createRoom = async(req,res)=>{
 
 }
 
+/*
 const updateRoom = async(req,res)=>{
     const{id,number,passengers,rooms}=req.body
 
     if(!number||!passengers||!rooms){
         return res.status(400).json({message:'All fields are required'})
+    }
+
+    if (typeof number !== 'number' || typeof passengers !== 'number' || typeof rooms !== 'number') {
+        return res.status(400).json({message:"Only numbers allowed"})
+      }
+
+    const duplicatedRoom = await Room.findOne({number}).lean().exec()
+
+    if(duplicatedRoom){
+        return res.status(409).json({message: "Duplicate room"})
     }
 
     const room = await Room.findById(id).exec()
@@ -58,6 +79,8 @@ const updateRoom = async(req,res)=>{
 
     res.json({message:`Room n°${number} updated!`})
 }
+
+*/
 
 const deleteRoom = async(req,res) =>{
     const{id}=req.body
@@ -81,6 +104,6 @@ const deleteRoom = async(req,res) =>{
 module.exports={
     getRooms,
     createRoom,
-    updateRoom,
+   // updateRoom,
     deleteRoom
 }

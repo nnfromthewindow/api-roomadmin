@@ -21,11 +21,58 @@ const createNewUser = async (req,res)=>{
         return res.status(400).json({message:"Complete required fields"})
     }
 
-    const duplicate = await User.findOne({username}).collation({locale: 'en', strength:2}).lean().exec()
+    const duplicateUsername = await User.findOne({username}).collation({locale: 'en', strength:2}).lean().exec()
 
-    if(duplicate){
+    if(duplicateUsername){
         return res.status(409).json({message: "Duplicate username"})
     }
+
+    const duplicateIdNumber = await User.findOne({idnumber}).collation({locale: 'en', strength:2}).lean().exec()
+
+    if(duplicateIdNumber){
+        return res.status(409).json({message: "Duplicate Id Number"})
+    }
+
+    if(name.length>20){
+        return res.status(400).json({message:"The name should have less than 20 characters"})
+    }
+
+    if(lastname.length>20){
+        return res.status(400).json({message:"The lastname should have less than 20 characters"})
+    }
+    
+    if(idnumber.length>30){
+        return res.status(400).json({message:"The Id Number should have less than 30 characters"})
+    }
+
+    if(duplicateIdNumber){
+        return res.status(409).json({message: "Duplicate customer"})
+    }
+
+    if(adress.length>50){
+        return res.status(400).json({message:"The adress should have less than 50 characters"})
+    }
+
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+        return res.status(400).json({message:"Invalid Email"})
+    }
+
+    if(email.length>30){
+        return res.status(400).json({message:"The email should have less than 30 characters"})
+    }
+
+    if(phone.length>20){
+        return res.status(400).json({message:"The phone number should have less than 20 characters"})
+    }
+
+    if(username.length>20 || username.length<4){
+        return res.status(400).json({message:"The username should have a minimum of 4 characters and a maximum of 20 characters"})
+    }
+
+    if(!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/)){
+        return res.status(400).json({message:"The password should contain at least one lowercase letter, one uppercase letter, one number, and have a minimum of 8 characters and a maximum of 20 characters"})
+    }
+
     const hashedPassword = await bcrypt.hash(password,15)
 
     const userObject = {name, lastname, idnumber, adress, email, phone, username,"password":hashedPassword, avatar, roles}
@@ -50,6 +97,10 @@ const updateUser =  async (req,res)=>{
 
     if (!user) {
         return res.status(400).json({ message: 'User not found' })
+    }
+
+    if(user.roles.includes('Admin')){
+        return res.status(400).json({message:"You have no permission to edit an Admin"})
     }
 
     const duplicate = await User.findOne({username}).collation({locale: 'en', strength:2}).lean().exec()
@@ -86,6 +137,10 @@ const deleteUser = async (req,res)=>{
 
     if(!user){
         return res.status(400).json({message:"User not found"})
+    }
+
+    if(user.roles.includes('Admin')){
+        return res.status(400).json({message:"You have no permission to delete an Admin"})
     }
 
     const result = await user.deleteOne()

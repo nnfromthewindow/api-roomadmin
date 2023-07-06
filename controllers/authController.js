@@ -13,6 +13,14 @@ if(!username||!password){
     return res.status(400).json({message:'All fields are required'})
 }
 
+if(username.length>20 || username.length<4){
+    return res.status(400).json({message:'The username should have a minimum of 4 characters and a maximum of 20 characters'})
+}
+
+if(!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/)){
+    return res.status(400).json({message:'The password should contain at least one lowercase letter, one uppercase letter, one number, and have a minimum of 8 characters and a maximum of 20 characters'})
+}
+
 const user = await User.findOne({username}).exec()
 
 if(!user){

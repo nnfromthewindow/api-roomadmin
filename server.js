@@ -29,7 +29,7 @@ app.use('/bookings', require('./routes/bookingRoutes'))
 app.use('/customers', require('./routes/customerRoutes'))
 app.use('/ledger', require('./routes/ledgerRoutes'))
 app.use('/rooms', require('./routes/roomRoutes'))
-app.use('/rates', require('./routes/rateRoutes'))
+
 
 
 app.all('*',(req,res)=>{

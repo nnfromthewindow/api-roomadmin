@@ -16,10 +16,47 @@ const getAllCustomers = async(req,res)=>{
 }
 
 const createCustomer = async(req,res)=>{
+    
     const{name,lastname,idnumber,adress,email,phone}=req.body
 
-    if(!name||!lastname||!phone){
+    const duplicateIdNumber = await Customer.findOne({idnumber}).collation({locale: 'en', strength:2}).lean().exec()
+
+
+
+    if(!name||!lastname||!phone||!idnumber||!adress){
         return res.status(400).json({message:"Complete required fields"})
+    }
+
+    if(name.length>20){
+        return res.status(400).json({message:"The name should have less than 20 characters"})
+    }
+
+    if(lastname.length>20){
+        return res.status(400).json({message:"The lastname should have less than 20 characters"})
+    }
+    
+    if(idnumber.length>30){
+        return res.status(400).json({message:"The Id Number should have less than 30 characters"})
+    }
+
+    if(duplicateIdNumber){
+        return res.status(409).json({message: "Duplicate customer"})
+    }
+
+    if(adress.length>50){
+        return res.status(400).json({message:"The adress should have less than 50 characters"})
+    }
+
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+        return res.status(400).json({message:"Invalid Email"})
+    }
+
+    if(email.length>30){
+        return res.status(400).json({message:"The email should have less than 30 characters"})
+    }
+
+    if(phone.length>20){
+        return res.status(400).json({message:"The phone number should have less than 20 characters"})
     }
 
    const customerObject={
@@ -36,17 +73,57 @@ const createCustomer = async(req,res)=>{
 
 }
 
+
 const updateCustomer = async(req,res) =>{
+
     const{id,name,lastname,idnumber,adress,email,phone} = req.body
+
+    const customer = await Customer.findById(id).exec()
+
+    
+
+    if(!customer){
+        return res.status(400).json({message:`Customer with ID ${id} not found`})
+    }
 
     if(!name||!lastname||!idnumber||!adress||!phone){
         return res.status(400).json({message:"All fields except email are required"})
     }
 
-    const customer = await Customer.findById(id)
+    const duplicateIdNumber = await Customer.findOne({idnumber}).collation({locale: 'en', strength:2}).lean().exec()
 
-    if(!customer){
-        return res.status(400).json({message:`Customer with ID ${id} not found`})
+
+
+    if(name.length>20){
+        return res.status(400).json({message:"The name should have less than 20 characters"})
+    }
+
+    if(lastname.length>20){
+        return res.status(400).json({message:"The lastname should have less than 20 characters"})
+    }
+    
+    if(idnumber.length>30){
+        return res.status(400).json({message:"The Id Number should have less than 30 characters"})
+    }
+
+    if(duplicateIdNumber){
+        return res.status(409).json({message: "Duplicate customer"})
+    }
+
+    if(adress.length>50){
+        return res.status(400).json({message:"The adress should have less than 50 characters"})
+    }
+
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+        return res.status(400).json({message:"Invalid Email"})
+    }
+
+    if(email.length>30){
+        return res.status(400).json({message:"The email should have less than 30 characters"})
+    }
+
+    if(phone.length>20){
+        return res.status(400).json({message:"The phone number should have less than 20 characters"})
     }
 
     customer.name = name

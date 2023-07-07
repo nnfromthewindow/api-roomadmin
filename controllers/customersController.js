@@ -90,7 +90,7 @@ const updateCustomer = async(req,res) =>{
         return res.status(400).json({message:"All fields except email are required"})
     }
 
-    const duplicateIdNumber = await Customer.findOne({idnumber}).collation({locale: 'en', strength:2}).lean().exec()
+    const duplicateCustomer = await Customer.findOne({idnumber}).collation({locale: 'en', strength:2}).lean().exec()
 
 
 
@@ -106,7 +106,7 @@ const updateCustomer = async(req,res) =>{
         return res.status(400).json({message:"The Id Number should have less than 30 characters"})
     }
 
-    if(duplicateIdNumber){
+    if(duplicateCustomer && duplicateCustomer.name!=name && duplicateCustomer.lastname!=lastname){
         return res.status(409).json({message: "Duplicate customer"})
     }
 

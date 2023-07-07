@@ -15,6 +15,8 @@ const getAllItems = async(req,res)=>{
     res.json(ledgerItemsList)
 }
 
+/*
+
 const getFilteredItems = async (req,res)=>{
     const {month, year}=req.body
   
@@ -39,6 +41,7 @@ const getFilteredItems = async (req,res)=>{
 
     res.json(filteredItems)
 }
+*/
 
 const createLedgerItem = async(req,res)=>{
     
@@ -46,6 +49,14 @@ const createLedgerItem = async(req,res)=>{
 
     if(!date||!description||!expenses||!income){
         return res.status(400).json({message:"All fields required"})
+    }
+
+    if(description.length>80){
+        return res.status(400).json({message:"The description should have less than 80 characters"})
+    }
+
+    if(description.length>80){
+        return res.status(400).json({message:"The value should have less than 20 numbers"})
     }
         
     const itemObject = {
@@ -107,6 +118,6 @@ module.exports = {
     getAllItems,
     createLedgerItem,
     updateLedgerItem,
-    getFilteredItems,
+   // getFilteredItems,
     deleteLedgerItem
 }

@@ -15,7 +15,7 @@ router.route('/')
     .delete(ledgerItemsController.deleteLedgerItem)
     .patch(ledgerItemsController.updateLedgerItem)
 
-router.route('/date')
-    .get(ledgerItemsController.getFilteredItems)
+//router.route('/date')
+//    .get(ledgerItemsController.getFilteredItems)
 
 module.exports = router

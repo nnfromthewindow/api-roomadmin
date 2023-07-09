@@ -68,7 +68,7 @@ if(match){
     user.refreshToken = [...newRefreshTokenArray,newRefreshToken]
     const result = await user.save()
 
-    res.cookie('jwt', newRefreshToken,{httpOnly:true, secure: true, sameSite:'None', maxAge: 24 * 60 * 60 * 1000, Domain:'https://roomyapp-api.onrender.com' })
+    res.cookie('jwt', newRefreshToken,{httpOnly:true, secure: true, sameSite:'None', maxAge: 24 * 60 * 60 * 1000, Domain:'roomyapp-api.onrender.com' })
 
     res.json({accessToken, roles})
 } else {
@@ -81,7 +81,7 @@ const refresh = async(req,res) =>{
     const cookies = req.cookies
     if(!cookies?.jwt) return res.sendStatus(401)
     const refreshToken = cookies.jwt
-    res.clearCookie('jwt', {httpOnly:true, sameSite:'None', secure:true,Domain:'https://roomyapp-api.onrender.com' })
+    res.clearCookie('jwt', {httpOnly:true, sameSite:'None', secure:true,Domain:'roomyapp-api.onrender.com' })
 
     const user = await User.findOne({refreshToken}).exec()
   
@@ -139,7 +139,7 @@ const refresh = async(req,res) =>{
                     user.refreshToken = [...newRefreshTokenArray, newRefreshToken]
                     const result = await user.save()
 
-                    res.cookie('jwt', newRefreshToken,{httpOnly:true, secure:true, sameSite:'None',maxAge:24 * 60 * 60 * 1000, Domain:'https://roomyapp-api.onrender.com'})
+                    res.cookie('jwt', newRefreshToken,{httpOnly:true, secure:true, sameSite:'None',maxAge:24 * 60 * 60 * 1000, Domain:'roomyapp-api.onrender.com'})
 
                     res.json({accessToken, roles})
             }
@@ -152,12 +152,12 @@ const logout = async(req,res)=>{
     const refreshToken = cookies.jwt
     const user = await User.findOne({refreshToken}).exec()
     if(!user){
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, Domain:'https://roomyapp-api.onrender.com' })
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, Domain:'roomyapp-api.onrender.com' })
         return res.sendStatus(204)
     }
     user.refreshToken = user.refreshToken.filter(rt=> rt!== refreshToken)
     const result = await user.save()
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, Domain:'https://roomyapp-api.onrender.com' })
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, Domain:'roomyapp-api.onrender.com' })
     res.sendStatus(204)
 }
 

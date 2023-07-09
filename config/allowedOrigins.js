@@ -1,6 +1,6 @@
 const allowedOrigins = [
-    'https://roomyappok.web.app/',
-    'https://roomyappok.web.app/*'
+    'https://roomyapp.onrender.com',
+    'https://roomyapp.onrender.com/*'
 ]
 
 module.exports= allowedOrigins
